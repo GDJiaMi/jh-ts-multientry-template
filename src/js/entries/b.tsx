@@ -1,5 +1,6 @@
 import P, { h } from 'preact'
 import { log } from 'js/utils/common'
+import 'css/a.css'
 
 export default class H extends P.Component<void, void> {
   public componentDidMount() {
