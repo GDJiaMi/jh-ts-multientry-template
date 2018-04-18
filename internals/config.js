@@ -41,10 +41,24 @@ module.exports = (env, argv) => {
     },
     module: {
       rules: [
+        // typescript
         {
           test: /\.tsx?$/,
           use: 'ts-loader',
           exclude: /node_modules/,
+        },
+        // svg sprite
+        {
+          test: /\.icon\.svg$/,
+          use: [
+            {
+              loader: 'svg-sprite-loader',
+              options: {
+                esModule: false,
+              },
+            },
+            'svgo-loader',
+          ],
         },
         ...(envConfig.rules || []),
       ],
