@@ -41,26 +41,50 @@ module.exports = (env, argv) => {
     },
     module: {
       rules: [
-        // typescript
         {
-          test: /\.tsx?$/,
-          use: 'ts-loader',
-          exclude: /node_modules/,
-        },
-        // svg sprite
-        {
-          test: /\.icon\.svg$/,
-          use: [
+          oneOf: [
+            // typescript
             {
-              loader: 'svg-sprite-loader',
+              test: /\.tsx?$/,
+              use: 'ts-loader',
+              exclude: /node_modules/,
+            },
+            // svg sprite
+            {
+              test: /\.icon\.svg$/,
+              use: [
+                {
+                  loader: 'svg-sprite-loader',
+                  options: {
+                    esModule: false,
+                  },
+                },
+                'svgo-loader',
+              ],
+            },
+            // images
+            {
+              test: [/\.bmp$/, /\.gif$/, /\.jpe?g$/, /\.png$/, /\.svg/],
+              loader: 'url-loader',
               options: {
-                esModule: false,
+                limit: 10000,
+                name: 'static/media/[name].[hash:8].[ext]',
               },
             },
-            'svgo-loader',
+            ...(envConfig.rules || []),
+            {
+              // Exclude `js` files to keep "css" loader working as it injects
+              // its runtime that would otherwise be processed through "file" loader.
+              // Also exclude `html` and `json` extensions so they get processed
+              // by webpacks internal loaders.
+              exclude: [/\.(js|jsx|mjs)$/, /\.html$/, /\.json$/],
+              loader: 'file-loader',
+              options: {
+                name: 'static/media/[name].[hash:8].[ext]',
+              },
+            },
           ],
         },
-        ...(envConfig.rules || []),
       ],
     },
     optimization: {
