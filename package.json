@@ -6,6 +6,7 @@
   "scripts": {
     "start": "cross-env NODE_ENV=development webpack-dev-server --config internals/config.js --mode=development --env.development",
     "build": "webpack --config internals/config.js --mode=production --env.production",
+    "serve": "http-server dist -g -o",
     "prettier": "prettier --config .prettierrc --write \"src/**/*.ts?(x)\"",
     "precommit": "lint-staged"
   },
@@ -34,6 +35,7 @@
     "file-loader": "^1.1.11",
     "glob": "^7.1.2",
     "html-webpack-plugin": "^3.2.0",
+    "http-server": "^0.11.1",
     "husky": "^0.14.3",
     "jh-tslint": "^1.0.0",
     "lint-staged": "^7.0.4",
