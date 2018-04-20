@@ -65,4 +65,7 @@ module.exports = {
       new OptimizeCSSAssetsPlugin({}),
     ],
   },
+  performance: {
+    hints: 'warning',
+  },
 }

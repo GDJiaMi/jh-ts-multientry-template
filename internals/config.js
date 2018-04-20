@@ -36,6 +36,7 @@ module.exports = (env, argv) => {
       chunkFilename: 'static/js/[name].[hash:8].js',
       path: dist,
       pathinfo: true,
+      publicPath: enviroments.raw.PUBLIC_URL,
     },
     resolve: {
       modules: ['node_modules', context],
@@ -126,6 +127,7 @@ module.exports = (env, argv) => {
       ...(envConfig.plugins || []),
     ],
     devServer: envConfig.devServer,
+    performance: envConfig.performance,
   }
 
   return webpackConfig
