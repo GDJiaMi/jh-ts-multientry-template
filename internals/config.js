@@ -3,11 +3,13 @@ const glob = require('glob')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const CleanWebpackPlugin = require('clean-webpack-plugin')
 const path = require('path').posix
+const getEnviroment = require('./env')
 const { root, context, dist, static } = require('./path')
 const pkg = require('../package.json')
 
 module.exports = (env, argv) => {
   const isProduction = !!env.production
+  const enviroments = getEnviroment(isProduction ? 'production' : 'development')
   const $ = (development, production) =>
     isProduction ? production : development
 
@@ -119,9 +121,11 @@ module.exports = (env, argv) => {
       new CleanWebpackPlugin('dist', {
         root,
       }),
-      ...genTemplatePlugin(isProduction),
+      new webpack.DefinePlugin(enviroments.stringified),
+      ...genTemplatePlugin(isProduction, enviroments.raw),
       ...(envConfig.plugins || []),
     ],
+    devServer: envConfig.devServer,
   }
 
   return webpackConfig
@@ -132,13 +136,14 @@ function getPages() {
 }
 
 // 生成*.html 文件
-function genTemplatePlugin(isProduction) {
+function genTemplatePlugin(isProduction, templateParameters) {
   const pages = getPages()
   return pages.map(pagePath => {
     const name = path.basename(pagePath, '.html')
     const filename = path.basename(pagePath)
     return new HtmlWebpackPlugin({
       filename,
+      templateParameters,
       inject: true,
       chunks: ['vendor', 'commons', name],
       template: pagePath,
