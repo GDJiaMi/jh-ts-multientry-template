@@ -4,7 +4,12 @@ const HtmlWebpackPlugin = require('html-webpack-plugin')
 const CleanWebpackPlugin = require('clean-webpack-plugin')
 const path = require('path').posix
 const getEnviroment = require('./env')
-const { root, context, dist, static } = require('./path')
+const {
+  root,
+  context,
+  dist,
+  static
+} = require('./path')
 const pkg = require('../package.json')
 
 module.exports = (env, argv) => {
@@ -17,7 +22,7 @@ module.exports = (env, argv) => {
   const webpackConfig = {
     context,
     mode: $('development', 'production'),
-    devtool: $('inline-source-map', 'source-map'),
+    devtool: enviroments.raw.SOURCE_MAP === 'false' ? false : $('inline-source-map', 'source-map'),
     entry: async () => {
       const pages = getPages()
       const entries = {
@@ -43,52 +48,49 @@ module.exports = (env, argv) => {
       extensions: ['.tsx', '.ts', '.js'],
     },
     module: {
-      rules: [
-        {
-          oneOf: [
-            // typescript
-            {
-              test: /\.tsx?$/,
-              use: 'ts-loader',
-              exclude: /node_modules/,
-            },
-            // svg sprite
-            {
-              test: /\.icon\.svg$/,
-              use: [
-                {
-                  loader: 'svg-sprite-loader',
-                  options: {
-                    esModule: false,
-                  },
+      rules: [{
+        oneOf: [
+          // typescript
+          {
+            test: /\.tsx?$/,
+            use: 'ts-loader',
+            exclude: /node_modules/,
+          },
+          // svg sprite
+          {
+            test: /\.icon\.svg$/,
+            use: [{
+                loader: 'svg-sprite-loader',
+                options: {
+                  esModule: false,
                 },
-                'svgo-loader',
-              ],
-            },
-            // images
-            {
-              test: [/\.bmp$/, /\.gif$/, /\.jpe?g$/, /\.png$/, /\.svg/],
-              loader: 'url-loader',
-              options: {
-                limit: 10000,
-                name: 'static/media/[name].[hash:8].[ext]',
               },
+              'svgo-loader',
+            ],
+          },
+          // images
+          {
+            test: [/\.bmp$/, /\.gif$/, /\.jpe?g$/, /\.png$/, /\.svg/],
+            loader: 'url-loader',
+            options: {
+              limit: 10000,
+              name: 'static/media/[name].[hash:8].[ext]',
             },
-            ...(envConfig.rules || []),
-            {
-              // Exclude `js` files to keep "css" loader working as it injects
-              // its runtime that would otherwise be processed through "file" loader.
-              // Also exclude `html` and `json` extensions so they get processed
-              // by webpacks internal loaders.
-              exclude: [/\.(js|jsx|mjs)$/, /\.html$/, /\.json$/],
-              loader: 'file-loader',
-              options: {
-                name: 'static/media/[name].[hash:8].[ext]',
-              },
+          },
+          ...(envConfig.rules || []),
+          {
+            // Exclude `js` files to keep "css" loader working as it injects
+            // its runtime that would otherwise be processed through "file" loader.
+            // Also exclude `html` and `json` extensions so they get processed
+            // by webpacks internal loaders.
+            exclude: [/\.(js|jsx|mjs)$/, /\.html$/, /\.json$/],
+            loader: 'file-loader',
+            options: {
+              name: 'static/media/[name].[hash:8].[ext]',
             },
-          ],
-        },
-      ],
+          },
+        ],
+      }, ],
     },
     optimization: {
       splitChunks: {
@@ -149,15 +151,15 @@ function genTemplatePlugin(isProduction, templateParameters) {
       inject: true,
       chunks: ['vendor', 'commons', name],
       template: pagePath,
-      minify: isProduction
-        ? {
-            removeAttributeQuotes: true,
-            removeComments: true,
-            collapseWhitespace: true,
-            removeScriptTypeAttributes: true,
-            removeStyleLinkTypeAttributes: true,
-          }
-        : undefined,
+      minify: isProduction ?
+        {
+          removeAttributeQuotes: true,
+          removeComments: true,
+          collapseWhitespace: true,
+          removeScriptTypeAttributes: true,
+          removeStyleLinkTypeAttributes: true,
+        } :
+        undefined,
     })
   })
 }

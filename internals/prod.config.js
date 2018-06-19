@@ -5,49 +5,58 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin')
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
 const CopyWebpackPlugin = require('copy-webpack-plugin')
+const getEnviroment = require('./env')
 const path = require('path').posix
-const { root, context, dist, static } = require('./path')
+const {
+  root,
+  context,
+  dist,
+  static
+} = require('./path')
+
+const enviroments = getEnviroment('production')
+const shouldUseRelativeAssetPaths = enviroments.raw.PUBLIC_URL === './'
+const cssFilename = 'static/css/[name].[contenthash].css'
 
 module.exports = {
-  rules: [
-    {
-      test: /\.css$/,
-      use: [
-        MiniCssExtractPlugin.loader,
-        {
-          loader: 'css-loader',
-          options: {
-            importLoaders: 1,
-            minimize: true,
-          },
+  rules: [{
+    test: /\.css$/,
+    use: [{
+        loader: MiniCssExtractPlugin.loader,
+        options: {
+          publicPath: shouldUseRelativeAssetPaths ? Array(cssFilename.split('/').length).join('../') : undefined
+        }
+      },
+      {
+        loader: 'css-loader',
+        options: {
+          importLoaders: 1,
+          minimize: true,
         },
-        {
-          loader: 'postcss-loader',
-          options: {
-            ident: 'postcss',
-            plugins: () => [
-              require('autoprefixer')({
-                browsers: ['last 2 versions'],
-              }),
-            ],
-          },
+      },
+      {
+        loader: 'postcss-loader',
+        options: {
+          ident: 'postcss',
+          plugins: () => [
+            require('autoprefixer')({
+              browsers: ['last 2 versions'],
+            }),
+          ],
         },
-      ],
-    },
-  ],
+      },
+    ],
+  }, ],
   plugins: [
     // 拷贝静态资源
-    new CopyWebpackPlugin([
-      {
-        from: path.join(static, '**/*'),
-        to: dist,
-        context: static,
-      },
-    ]),
+    new CopyWebpackPlugin([{
+      from: path.join(static, '**/*'),
+      to: dist,
+      context: static,
+    }, ]),
     // 抽取CSS文件
     new MiniCssExtractPlugin({
-      filename: 'static/css/[name].[contenthash].css',
-      chunkFilename: 'static/css/[id].css',
+      filename: cssFilename,
     }),
   ],
   optimization: {

@@ -24,7 +24,7 @@ module.exports = function getEnvironment(env) {
     }
   })
 
-  const ALLOWED_ENVS = pkg.allowedEnvs || []
+  const ALLOWED_ENVS = [...(pkg.allowedEnvs || []), "SOURCE_MAP"]
   const raw = Object.keys(process.env)
     .filter(key => ALLOWED_ENVS.indexOf(key) !== -1)
     .reduce(
