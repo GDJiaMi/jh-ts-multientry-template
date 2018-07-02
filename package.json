@@ -50,6 +50,8 @@
     "optimize-css-assets-webpack-plugin": "^4.0.0",
     "postcss-loader": "^2.1.4",
     "prettier": "^1.12.1",
+    "pug": "^2.0.3",
+    "pug-loader": "^2.4.0",
     "style-loader": "^0.20.3",
     "svg-sprite-loader": "^3.7.3",
     "svgo": "1.0.0",

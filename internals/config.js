@@ -8,7 +8,8 @@ const {
   root,
   context,
   dist,
-  static
+  static,
+  pageExt,
 } = require('./path')
 const pkg = require('../package.json')
 
@@ -24,12 +25,12 @@ module.exports = (env, argv) => {
     mode: $('development', 'production'),
     devtool: enviroments.raw.SOURCE_MAP === 'false' ? false : $('inline-source-map', 'source-map'),
     entry: async () => {
-      const pages = getPages()
+      const pages = getPages(pageExt)
       const entries = {
         vendor: pkg.vendor || [],
       }
       pages.forEach(pagePath => {
-        const fileName = path.basename(pagePath, '.html')
+        const fileName = path.basename(pagePath, pageExt)
         const entry = `./js/entries/${fileName}.tsx`
         entries[fileName] = entry
       })
@@ -59,6 +60,16 @@ module.exports = (env, argv) => {
             test: /\.tsx?$/,
             use: 'ts-loader',
             exclude: /node_modules/,
+          },
+          // pug loader
+          {
+            test: /\.pug$/,
+            use: [{
+              loader: 'pug-loader',
+              options: {
+                root: context,
+              },
+            }, ],
           },
           // svg sprite
           {
@@ -139,19 +150,20 @@ module.exports = (env, argv) => {
   return webpackConfig
 }
 
-function getPages() {
-  return glob.sync(path.join(context, '*.html'))
+function getPages(ext) {
+  return glob.sync(path.join(context, `*${ext}`))
 }
 
 // 生成*.html 文件
-function genTemplatePlugin(isProduction, templateParameters) {
-  const pages = getPages()
+function genTemplatePlugin(isProduction, templateParameters, ext) {
+  ext = ext || pageExt
+  const pages = getPages(ext)
   return pages.map(pagePath => {
-    const name = path.basename(pagePath, '.html')
-    const filename = path.basename(pagePath)
+    const name = path.basename(pagePath, ext)
+    const filename = path.basename(pagePath, ext)
     return new HtmlWebpackPlugin({
-      filename,
       templateParameters,
+      filename: filename + '.html',
       inject: true,
       chunks: ['vendor', 'commons', name],
       template: pagePath,

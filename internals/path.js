@@ -17,4 +17,6 @@ module.exports = {
   static,
   // 编译输出目录
   dist,
+  // 模板扩展名
+  pageExt: '.pug',
 }
