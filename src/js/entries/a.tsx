@@ -1,10 +1,9 @@
-import P, { h } from 'preact'
+import React from 'react'
+import ReactDOM from 'react-dom'
 import { log } from 'js/utils/common'
 import 'css/a.css'
 
-console.log('fuckxx')
-
-export default class H extends P.Component<void, void> {
+class H extends React.Component<{}, {}> {
   public componentDidMount() {
     log('hi')
   }
@@ -12,3 +11,5 @@ export default class H extends P.Component<void, void> {
     return <div>hello</div>
   }
 }
+
+ReactDOM.render(<H />, document.body)

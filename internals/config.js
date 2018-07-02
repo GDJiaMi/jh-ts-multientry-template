@@ -46,6 +46,10 @@ module.exports = (env, argv) => {
     resolve: {
       modules: ['node_modules', context],
       extensions: ['.tsx', '.ts', '.js'],
+      alias: {
+        react: "preact-compat",
+        "react-dom": "preact-compat"
+      }
     },
     module: {
       rules: [{
@@ -151,15 +155,13 @@ function genTemplatePlugin(isProduction, templateParameters) {
       inject: true,
       chunks: ['vendor', 'commons', name],
       template: pagePath,
-      minify: isProduction ?
-        {
-          removeAttributeQuotes: true,
-          removeComments: true,
-          collapseWhitespace: true,
-          removeScriptTypeAttributes: true,
-          removeStyleLinkTypeAttributes: true,
-        } :
-        undefined,
+      minify: isProduction ? {
+        removeAttributeQuotes: true,
+        removeComments: true,
+        collapseWhitespace: true,
+        removeScriptTypeAttributes: true,
+        removeStyleLinkTypeAttributes: true,
+      } : undefined,
     })
   })
 }

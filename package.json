@@ -4,28 +4,34 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
-    "start":
-      "cross-env NODE_ENV=development webpack-dev-server --config internals/config.js --mode=development --env.development",
-    "build":
-      "webpack --config internals/config.js --mode=production --env.production",
-    "analyze":
-      "webpack --config internals/config.js --mode=production --env.production --json > stats.json && webpack-bundle-analyzer stats.json",
+    "start": "cross-env NODE_ENV=development webpack-dev-server --config internals/config.js --mode=development --env.development",
+    "build": "webpack --config internals/config.js --mode=production --env.production",
+    "analyze": "webpack --config internals/config.js --mode=production --env.production --json > stats.json && webpack-bundle-analyzer stats.json",
     "serve": "http-server dist -g -o",
     "prettier": "prettier --config .prettierrc --write \"src/**/*.ts?(x)\"",
     "precommit": "lint-staged"
   },
   "lint-staged": {
-    "*.ts?(x)": ["prettier --write", "git add"]
+    "*.ts?(x)": [
+      "prettier --write",
+      "git add"
+    ]
   },
   "proxy": {},
   "allowedEnvs": [],
   "dependencies": {
-    "preact": "^8.2.7"
+    "preact": "^8.2.7",
+    "preact-compat": "^3.18.0"
   },
-  "vendor": ["preact"],
+  "vendor": [
+    "preact",
+    "preact-compat"
+  ],
   "devDependencies": {
     "@types/glob": "^5.0.35",
     "@types/node": "^9.6.5",
+    "@types/react": "^16.4.6",
+    "@types/react-dom": "^16.0.6",
     "@types/webpack": "^4.1.3",
     "autoprefixer": "^8.3.0",
     "clean-webpack-plugin": "^0.1.19",
