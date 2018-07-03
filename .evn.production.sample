@@ -1,3 +1,0 @@
-# rename to .env.production
-PUBLIC_URL=./
-SOURCE_MAP=false
