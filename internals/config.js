@@ -27,6 +27,7 @@ module.exports = (env, argv) => {
     entry: async () => {
       const pages = getPages(pageExt)
       const entries = {
+        polyfill: require.resolve('./polyfill.js'),
         vendor: pkg.vendor || [],
       }
       pages.forEach(pagePath => {
@@ -165,7 +166,7 @@ function genTemplatePlugin(isProduction, templateParameters, ext) {
       templateParameters,
       filename: filename + '.html',
       inject: true,
-      chunks: ['vendor', 'commons', name],
+      chunks: ['polyfill', 'vendor', 'commons', name],
       template: pagePath,
       minify: isProduction ? {
         removeAttributeQuotes: true,
