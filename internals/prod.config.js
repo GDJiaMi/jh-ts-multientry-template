@@ -2,7 +2,6 @@
  * 生产环境配置
  */
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
-const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin')
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
 const CopyWebpackPlugin = require('copy-webpack-plugin')
 const getEnviroment = require('./env')
@@ -71,7 +70,6 @@ module.exports = {
           },
         },
       }),
-      new OptimizeCSSAssetsPlugin({}),
     ],
   },
   performance: {
