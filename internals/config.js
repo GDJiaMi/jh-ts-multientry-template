@@ -140,6 +140,8 @@ module.exports = (env, argv) => {
       new CleanWebpackPlugin('dist', {
         root,
       }),
+      // 移除moment语言包
+      new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
       new webpack.DefinePlugin(enviroments.stringified),
       ...genTemplatePlugin(isProduction, enviroments.raw),
       ...(envConfig.plugins || []),
