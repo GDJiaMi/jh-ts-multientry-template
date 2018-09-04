@@ -17,21 +17,19 @@
       "git add"
     ]
   },
-  "proxy": {},
   "allowedEnvs": [],
   "dependencies": {
     "preact": "^8.2.7",
-    "preact-compat": "^3.18.0"
+    "preact-compat": "^3.18.0",
+    "react": "^16.4.2",
+    "react-dom": "^16.4.2"
   },
-  "vendor": [
-    "preact",
-    "preact-compat"
-  ],
+  "vendor": [],
   "devDependencies": {
     "@types/glob": "^5.0.35",
     "@types/node": "^9.6.5",
-    "@types/react": "^16.4.6",
-    "@types/react-dom": "^16.0.6",
+    "@types/react": "^16.4.13",
+    "@types/react-dom": "^16.0.7",
     "@types/webpack": "^4.1.3",
     "autoprefixer": "^8.3.0",
     "clean-webpack-plugin": "^0.1.19",
@@ -49,22 +47,22 @@
     "mini-css-extract-plugin": "^0.4.0",
     "optimize-css-assets-webpack-plugin": "^4.0.0",
     "postcss-loader": "^2.1.4",
-    "prettier": "^1.12.1",
+    "prettier": "^1.14.2",
     "pug": "^2.0.3",
     "pug-loader": "^2.4.0",
-    "style-loader": "^0.20.3",
+    "style-loader": "^0.23.0",
     "svg-sprite-loader": "^3.7.3",
     "svgo": "1.0.0",
     "svgo-loader": "^2.1.0",
-    "ts-loader": "^4.2.0",
+    "ts-loader": "^5.0.0",
     "ts-node": "^6.0.0",
-    "tslib": "^1.9.0",
-    "typescript": "^2.8.1",
+    "tslib": "^1.9.3",
+    "typescript": "^3.0.3",
     "uglifyjs-webpack-plugin": "^1.2.4",
     "url-loader": "^1.0.1",
-    "webpack": "^4.5.0",
-    "webpack-bundle-analyzer": "^2.11.1",
-    "webpack-cli": "^2.0.14",
-    "webpack-dev-server": "^3.1.3"
+    "webpack": "^4.17.2",
+    "webpack-bundle-analyzer": "^2.13.1",
+    "webpack-cli": "^3.1.0",
+    "webpack-dev-server": "^3.1.7"
   }
 }
