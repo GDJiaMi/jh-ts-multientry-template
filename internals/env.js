@@ -8,6 +8,7 @@ const BUILIN_ENVS = [
   'USE_PREACT',
   'PORT',
   'HTTPS',
+  'IGNORE_ENTRIES',
 ]
 
 module.exports = function getEnvironment(env) {

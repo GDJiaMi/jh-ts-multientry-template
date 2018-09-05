@@ -13,6 +13,13 @@
 * HTTPS 开发服务器是否启用 HTTPS, 默认为 false
 * VERSION 指定版本号, 默认为 package.json 的 version 字段
 * PUBLIC_URL 指定 webpack 的 PUBLIC_PATH
+* IGNORE_ENTRIES 忽略的入口文件。默认情况下会扫描src下的*.pug和对应的*.tsx文件，使用配置指定多个glob模式，可以忽略入口文件
+  从而提高构建效率. 多个模式使用','分割. 例如
+
+  ```shell
+  # 忽略a.pug, 和b.pug入口
+  IGNORE_ENTRIES=**/a.pug,**/b.pug
+  ```
 
 自定义选项
 

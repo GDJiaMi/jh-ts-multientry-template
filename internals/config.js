@@ -29,7 +29,8 @@ module.exports = (env, argv) => {
     mode: $('development', 'production'),
     devtool: enviroments.raw.SOURCE_MAP === 'false' ? false : $('cheap-source-map', 'source-map'),
     entry: async () => {
-        const pages = getPages(pageExt)
+        const ignores = getIgnore(enviroments.raw.IGNORE_ENTRIES)
+        const pages = getPages(pageExt, ignores)
         const entries = {
           polyfill: require.resolve('./polyfill.js'),
           vendor: pkg.vendor || [],
@@ -177,14 +178,18 @@ module.exports = (env, argv) => {
   return webpackConfig
 }
 
-function getPages(ext) {
-  return glob.sync(path.join(context, `*${ext}`))
+function getPages(ext, ignores) {
+  ignores = ignores || []
+  return glob.sync(path.join(context, `*${ext}`), {
+    ignore: ignores,
+  })
 }
 
 // 生成*.html 文件
 function genTemplatePlugin(isProduction, templateParameters, ext) {
   ext = ext || pageExt
-  const pages = getPages(ext)
+  const ignores = getIgnore(templateParameters.IGNORE_ENTRIES)
+  const pages = getPages(ext, ignores)
   return pages.map(pagePath => {
     const name = path.basename(pagePath, ext)
     const filename = path.basename(pagePath, ext)
@@ -203,4 +208,11 @@ function genTemplatePlugin(isProduction, templateParameters, ext) {
       } : undefined,
     })
   })
+}
+
+function getIgnore(ignores) {
+  if (ignores == null || ignores === ''){
+    return []
+  }
+  return ignores.split(',')
 }
