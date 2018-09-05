@@ -5,6 +5,7 @@ const webpack = require('webpack')
 const glob = require('glob')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const CleanWebpackPlugin = require('clean-webpack-plugin')
+const tsImportPluginFactory = require('ts-import-plugin')
 const path = require('path').posix
 const getEnviroment = require('./env')
 const {
@@ -74,9 +75,25 @@ module.exports = (env, argv) => {
                 'cache-loader',
                 {
                   loader: 'ts-loader',
-                  options: $({}, {
+                  options: Object.assign($({}, {
                     transpileOnly: true,
                     experimentalWatchApi: true,
+                  }), {
+                    getCustomTransformers: () => ({
+                      before: [
+                        tsImportPluginFactory([{
+                            libraryName: 'antd',
+                            libraryDirectory: 'lib',
+                            style: 'css',
+                          },
+                          {
+                            libraryName: '@gdjiami/rc-components',
+                            libraryDirectory: 'lib',
+                            style: 'css',
+                          },
+                        ]),
+                      ],
+                    }),
                   })
                 }
               ],
@@ -211,7 +228,7 @@ function genTemplatePlugin(isProduction, templateParameters, ext) {
 }
 
 function getIgnore(ignores) {
-  if (ignores == null || ignores === ''){
+  if (ignores == null || ignores === '') {
     return []
   }
   return ignores.split(',')
