@@ -66,3 +66,6 @@ proxy.json
 
 # analyzer file
 stats.json
+
+# cache loader
+.cache-loader

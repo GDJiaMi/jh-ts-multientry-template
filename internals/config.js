@@ -27,7 +27,7 @@ module.exports = (env, argv) => {
   const webpackConfig = {
     context,
     mode: $('development', 'production'),
-    devtool: enviroments.raw.SOURCE_MAP === 'false' ? false : $('inline-source-map', 'source-map'),
+    devtool: enviroments.raw.SOURCE_MAP === 'false' ? false : $('cheap-source-map', 'source-map'),
     entry: async () => {
         const pages = getPages(pageExt)
         const entries = {
@@ -43,8 +43,8 @@ module.exports = (env, argv) => {
         return entries
       },
       output: {
-        filename: 'static/js/[name].js?[hash:8]',
-        chunkFilename: 'static/js/[name].js?[hash:8]',
+        filename: `static/js/[name].js${$('', '?[hash:8]')}`,
+        chunkFilename: `static/js/[name].js${$('', '?[hash:8]')}`,
         path: dist,
         pathinfo: true,
         publicPath: enviroments.raw.PUBLIC_URL,
@@ -69,23 +69,37 @@ module.exports = (env, argv) => {
             // typescript
             {
               test: /\.tsx?$/,
-              use: 'ts-loader',
+              use: [
+                'cache-loader',
+                {
+                  loader: 'ts-loader',
+                  options: $({}, {
+                    transpileOnly: true,
+                    experimentalWatchApi: true,
+                  })
+                }
+              ],
               exclude: /node_modules/,
             },
             // pug loader
             {
               test: /\.pug$/,
-              use: [{
-                loader: 'pug-loader',
-                options: {
-                  root: context,
+              use: [
+                'cache-loader',
+                {
+                  loader: 'pug-loader',
+                  options: {
+                    root: context,
+                  },
                 },
-              }, ],
+              ],
             },
             // svg sprite, 处理以.icon.svg结尾的svg文件
             {
               test: /\.icon\.svg$/,
-              use: [{
+              use: [
+                'cache-loader',
+                {
                   loader: 'svg-sprite-loader',
                   options: {
                     esModule: false,
@@ -100,7 +114,7 @@ module.exports = (env, argv) => {
               loader: 'url-loader',
               options: {
                 limit: 10000,
-                name: 'static/media/[name].[ext]?[hash:8]',
+                name: `static/media/[name].[ext]${$('', '?[hash:8]')}`,
               },
             },
             ...(envConfig.rules || []),
@@ -112,7 +126,7 @@ module.exports = (env, argv) => {
               exclude: [/\.(js|jsx|mjs)$/, /\.html$/, /\.json$/],
               loader: 'file-loader',
               options: {
-                name: 'static/media/[name].[ext]?[hash:8]',
+                name: `static/media/[name].[ext]${$('', '?[hash:8]')}`,
               },
             },
           ],
