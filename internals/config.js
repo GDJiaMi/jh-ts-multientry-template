@@ -51,7 +51,7 @@ module.exports = (env, argv) => {
         publicPath: enviroments.raw.PUBLIC_URL,
       },
       resolve: {
-        modules: [context, 'node_modules'],
+        modules: ['node_modules'],
         extensions: ['.tsx', '.ts', '.js'],
         // 使用preact模式, 默认关闭，在生产环境存在一些问题
         alias: {
