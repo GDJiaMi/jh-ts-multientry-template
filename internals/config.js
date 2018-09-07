@@ -4,7 +4,6 @@
 const webpack = require('webpack')
 const glob = require('glob')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
-const CleanWebpackPlugin = require('clean-webpack-plugin')
 const tsImportPluginFactory = require('ts-import-plugin')
 const path = require('path').posix
 const getEnviroment = require('./env')
@@ -179,9 +178,6 @@ module.exports = (env, argv) => {
         ...(envConfig.optimization || {}),
       },
       plugins: [
-        new CleanWebpackPlugin('dist', {
-          root,
-        }),
         // 移除moment语言包
         new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
         new webpack.DefinePlugin(enviroments.stringified),
