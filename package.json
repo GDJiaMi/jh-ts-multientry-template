@@ -58,7 +58,7 @@
     "ts-loader": "^5.0.0",
     "ts-node": "^6.0.0",
     "tslib": "^1.9.3",
-    "typescript": "^3.0.3",
+    "typescript": "2.9.2",
     "uglifyjs-webpack-plugin": "^1.2.4",
     "url-loader": "^1.0.1",
     "webpack": "^4.17.2",
