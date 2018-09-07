@@ -9,7 +9,9 @@
     "analyze": "webpack --config internals/config.js --mode=production --env.production --json > stats.json && webpack-bundle-analyzer stats.json",
     "serve": "http-server dist -g -o",
     "prettier": "prettier --config .prettierrc --write \"src/**/*.ts?(x)\"",
-    "precommit": "lint-staged"
+    "precommit": "lint-staged",
+    "initial": "node ./internals/scripts/init.js",
+    "initial-env": "npm run initial && cp .env.production.local.sample .env.production.local && cp .env.production.local .env.development.local && cp proxy.json.sample proxy.json"
   },
   "lint-staged": {
     "*.ts?(x)": [
