@@ -7,8 +7,8 @@ import { ErrorPage } from '@gdjiami/rc-components'
 import { loadComponent } from '@src/utils'
 import Layout from './Layout'
 
-const Login = loadComponent(() => import('@src/containers/Login'))
-const Home = loadComponent(() => import('@src/containers/Home'))
+const Login = loadComponent(() => import('./Login'))
+const Home = loadComponent(() => import('./Home'))
 
 export default (props: {}) => {
   return (

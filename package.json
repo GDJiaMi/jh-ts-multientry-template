@@ -11,8 +11,8 @@
     "serve": "http-server dist -g -o",
     "prettier": "prettier --config .prettierrc --write \"src/**/*.ts?(x)\"",
     "precommit": "lint-staged",
-    "initial": "node ./internals/scripts/init.js",
-    "initial-env": "npm run initial && cp .env.production.local.sample .env.production.local && cp .env.production.local .env.development.local && cp proxy.json.sample proxy.json"
+    "initial": "node ./internals/scripts/init.js && npm run initial-env",
+    "initial-env": "cp .env.production.local.sample .env.production.local && cp .env.production.local .env.development.local && cp proxy.json.sample proxy.json"
   },
   "lint-staged": {
     "*.ts?(x)": [
