@@ -84,12 +84,12 @@ module.exports = (env, argv) => {
                       before: [
                         tsImportPluginFactory([{
                             libraryName: 'antd',
-                            libraryDirectory: 'lib',
+                            libraryDirectory: 'es',
                             style: 'css',
                           },
                           {
                             libraryName: '@gdjiami/rc-components',
-                            libraryDirectory: 'lib',
+                            libraryDirectory: 'es',
                             style: 'css',
                           },
                         ]),
