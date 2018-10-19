@@ -74,7 +74,9 @@ module.exports = (env, argv) => {
                 'cache-loader',
                 {
                   loader: 'ts-loader',
-                  options: Object.assign($({}, {
+                  options: Object.assign($({
+                    experimentalWatchApi: true,
+                  }, {
                     transpileOnly: true,
                     experimentalWatchApi: true,
                   }), {
@@ -157,22 +159,16 @@ module.exports = (env, argv) => {
             vendor: {
               name: 'vendor',
               test: /node_modules/,
-              reuseExistingChunk: false,
               chunks: 'initial',
               minChunks: 2,
-              enforce: true, // 强制
-              priority: 10,
             },
             // 应用内共有包
             commons: {
               test: /src/,
               name: 'commons',
               chunks: 'all',
-              reuseExistingChunk: false,
               minChunks: 2,
-              priority: 10,
             },
-            default: false,
           },
         },
         ...(envConfig.optimization || {}),
